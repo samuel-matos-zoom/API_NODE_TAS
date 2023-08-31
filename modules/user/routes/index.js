@@ -303,12 +303,12 @@ exports.userRoutes = (app) => {
                 // Enviar e-mail
                 transporter.sendMail(mailOptions, (error, info) => {
                     if (error) {
-                        console.log("Erro ao enviar e-mail:", error);
+                        res.json({ 'status': false });
                     } else {
-                        console.log("E-mail enviado com sucesso!", info.response);
+                        res.json({ 'status': true });
+
                     }
                 });
-                res.json({ 'message': 'token alterado', 'link': 'https://dev.traininganalytics.com.br/altera-senha/' + jwt_token })
 
             } else {
                 res.json({ 'message': 'Usuário não encontrado' })
