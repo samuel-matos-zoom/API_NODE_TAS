@@ -9,7 +9,7 @@ const nodemailer = require("nodemailer");
 const { execSQLQuery } = require("../../../database");
 
 const transporter = nodemailer.createTransport({
-    service: "pop.traininganalytics.com.br", // Substitua pelo seu servidor SMTP
+    host: "pop.traininganalytics.com.br", // Substitua pelo seu servidor SMTP
     port: 587,
     auth: {
         user: "no-reply@traininganalytics.com.br", // Seu e-mail
@@ -288,7 +288,7 @@ exports.userRoutes = (app) => {
             CryptoJS.HmacSHA256(header + '.' + payload, 'ZECTAS').toString()
         ).toString('base64');
         const jwt_token = header + '.' + payload + '.' + signature;
-        console.log(jwt_token);
+
         var query = ["UPDATE usuario SET token = ? WHERE email = ?", [jwt_token, req.body.email]];
         cb = (txt) => {
             if (txt['changedRows'] > 0) {
@@ -302,6 +302,8 @@ exports.userRoutes = (app) => {
                 // Enviar e-mail
                 transporter.sendMail(mailOptions, (error, info) => {
                     if (error) {
+                        console.log(error);
+                        console.log(info);
                         res.json({ 'status': false });
                     } else {
                         res.json({ 'status': true });
