@@ -2,8 +2,21 @@ const jsonwebtoken = require('jsonwebtoken');
 const moment = require('moment');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const CryptoJS = require('crypto-js');
+const md5 = require('md5');
+const nodemailer = require("nodemailer");
 
 const { execSQLQuery } = require("../../../database");
+
+const transporter = nodemailer.createTransport({
+    service: "pop.traininganalytics.com.br", // Substitua pelo seu servidor SMTP
+    port: 587, // Porta do servidor SMTP
+    secure: true, // true para TLS, false para outras portas
+    auth: {
+        user: "no-reply@traininganalytics.com.br", // Seu e-mail
+        pass: "AnalyticsTAS495051@" // Sua senha de e-mail
+    }
+});
 
 exports.userRoutes = (app) => {
     app.post('/addAccess', (req, res) => {
@@ -266,6 +279,42 @@ exports.userRoutes = (app) => {
             };
             execSQLQuery(query, cb);
         }
+    });
+
+
+    app.post('/forgotPass', (req, res) => {
+        const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64');
+        const payload = Buffer.from(JSON.stringify({ sub: md5(Date.now()), email: req.body.email, iat: Date.now() })).toString('base64');
+        const signature = Buffer.from(
+            CryptoJS.HmacSHA256(header + '.' + payload, 'ZECTAS').toString()
+        ).toString('base64');
+        const jwt_token = header + '.' + payload + '.' + signature;
+        console.log(jwt_token);
+        var query = ["UPDATE usuario SET token = ? WHERE email = ?", [jwt_token, req.body.email]];
+        cb = (txt) => {
+            if (txt['changedRows'] > 0) {
+                const mailOptions = {
+                    from: "no-reply@traininganalytics.com.br",
+                    to: req.body.email,
+                    subject: "Esqueceu a senha",
+                    text: 'https://dev.traininganalytics.com.br/altera-senha/' + jwt_token
+                };
+
+                // Enviar e-mail
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        console.log("Erro ao enviar e-mail:", error);
+                    } else {
+                        console.log("E-mail enviado com sucesso!", info.response);
+                    }
+                });
+                res.json({ 'message': 'token alterado', 'link': 'https://dev.traininganalytics.com.br/altera-senha/' + jwt_token })
+
+            } else {
+                res.json({ 'message': 'Usuário não encontrado' })
+            }
+        }
+        execSQLQuery(query, cb);
     });
 
 
