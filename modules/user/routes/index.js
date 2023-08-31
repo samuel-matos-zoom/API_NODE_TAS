@@ -9,7 +9,7 @@ const nodemailer = require("nodemailer");
 const { execSQLQuery } = require("../../../database");
 
 const transporter = nodemailer.createTransport({
-    service: "pop.traininganalytics.com.br", // Substitua pelo seu servidor SMTP
+    service: "smtp.traininganalytics.com.br", // Substitua pelo seu servidor SMTP
     port: 587, // Porta do servidor SMTP
     secure: true, // true para TLS, false para outras portas
     auth: {
