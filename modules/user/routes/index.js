@@ -311,7 +311,7 @@ exports.userRoutes = (app) => {
                 });
 
             } else {
-                res.json({ 'message': 'Usuário não encontrado' })
+                res.json({ 'status': false });
             }
         }
         execSQLQuery(query, cb);
