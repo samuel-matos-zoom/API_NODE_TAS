@@ -3,13 +3,15 @@ const moment = require('moment');
 const jsonwebtoken = require('jsonwebtoken');
 
 exports.termsRoutes = (app) => {
+
     //deve pegar o termo ativo
     app.get('/getTerm', (req, res) => {
+        console.log(req.query.cliente);
         var sqlQry = ["SELECT * FROM termos_uso WHERE ativo = ?", [1]];
         var cb = (val) => {
             res.json(val);
         };
-        execSQLQuery(sqlQry, cb);
+        execSQLQuery(sqlQry, cb, req.query.cliente);
     });
 
     //deve atualizar o usuario com aceite e registrar o log

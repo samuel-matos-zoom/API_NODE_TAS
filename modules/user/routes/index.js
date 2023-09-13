@@ -190,7 +190,7 @@ exports.userRoutes = (app) => {
                 res.send({ message: "Usuário não encontrado" })
             }
         }
-        execSQLQuery(query, cb);
+        execSQLQuery(query, cb, req.body.cliente);
     });
 
     app.post('/changePass', async (req, res) => {
