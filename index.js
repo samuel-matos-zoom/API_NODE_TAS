@@ -1,3 +1,3 @@
-const servidor = require('./modules/serv');
+const servidor = require('./serv/index.js');
 
 servidor.start();

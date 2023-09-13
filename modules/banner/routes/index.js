@@ -30,7 +30,7 @@ exports.bannerRoutes = (app) => {
             res.json(nArr);
 
         };
-        execSQLQuery(sqlQry, cb);
+        execSQLQuery(sqlQry, cb, req.body.cliente);
     });
 
 }

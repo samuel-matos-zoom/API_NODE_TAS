@@ -8,7 +8,7 @@ exports.conquistasRoutes = (app) => {
         var cb = (val) => {
             res.json(val);
         };
-        execSQLQuery(sqlQry, cb);
+        execSQLQuery(sqlQry, cb, req.body.cliente);
     });
 
     app.post('/emitirConquista', (req, res) => {
@@ -25,17 +25,17 @@ exports.conquistasRoutes = (app) => {
                         cb2 = (val) => {
                             res.send({ message: 'Conquista recebida com sucesso', pontos: value[0]['pontos'] });
                         };
-                        execSQLQuery(query2, cb2)
+                        execSQLQuery(query2, cb2, req.body.cliente)
                     } else {
                         res.send({ message: 'Conquista já recebida.' })
                     }
                 };
-                execSQLQuery(query, cb);
+                execSQLQuery(query, cb, req.body.cliente);
             } else {
                 res.send({ message: "Conquista não encontrada" });
             }
         };
-        execSQLQuery(sqlQry, cbFirst);
+        execSQLQuery(sqlQry, cbFirst, req.body.cliente);
 
 
     });

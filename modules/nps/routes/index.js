@@ -8,7 +8,7 @@ exports.npsRoutes = (app) => {
         var cb = (val) => {
             res.json(val);
         };
-        execSQLQuery(sqlQry, cb);
+        execSQLQuery(sqlQry, cb, req.body.cliente);
     });
 
     app.post('/addNps', (req, res) => {
@@ -34,7 +34,7 @@ exports.npsRoutes = (app) => {
                 });
             }
         };
-        execSQLQuery(sqlQry, cb);
+        execSQLQuery(sqlQry, cb, req.body.cliente);
     });
 
 

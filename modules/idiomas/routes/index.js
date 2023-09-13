@@ -8,7 +8,7 @@ exports.idiomasRoutes = (app) => {
         var cb = (val) => {
             res.json(val);
         };
-        execSQLQuery(sqlQry, cb);
+        execSQLQuery(sqlQry, cb, req.body.cliente);
     });
 
     app.get('/getIdiomas', (req, res) => {
@@ -16,7 +16,7 @@ exports.idiomasRoutes = (app) => {
         var cb = (val) => {
             res.json(val);
         };
-        execSQLQuery(sqlQry, cb);
+        execSQLQuery(sqlQry, cb, req.body.cliente);
     });
     app.post('/setIdioma', (req, res) => {
         const [, token] = req.headers.authorization?.split(' ') || [' ', ' '];
@@ -27,7 +27,7 @@ exports.idiomasRoutes = (app) => {
 
         };
 
-        execSQLQuery(sqlQry, cb);
+        execSQLQuery(sqlQry, cb, req.body.cliente);
     });
 
 

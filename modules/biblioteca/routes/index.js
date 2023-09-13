@@ -7,7 +7,7 @@ exports.bibliotecaRoutes = (app) => {
         var cb = (val) => {
             res.json(val);
         };
-        execSQLQuery(sqlQry, cb);
+        execSQLQuery(sqlQry, cb, req.body.cliente);
     });
 
     app.post('/getBibliotecaByCurso', (req, res) => {
@@ -15,7 +15,7 @@ exports.bibliotecaRoutes = (app) => {
         var cb = (val) => {
             res.json(val);
         };
-        execSQLQuery(sqlQry, cb);
+        execSQLQuery(sqlQry, cb, req.body.cliente);
     });
 
 }

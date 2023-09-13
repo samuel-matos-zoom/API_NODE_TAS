@@ -10,7 +10,7 @@ exports.recursosRoutes = (app) => {
         var cb = (val) => {
             res.json(val);
         };
-        execSQLQuery(sqlQry, cb);
+        execSQLQuery(sqlQry, cb, req.body.cliente);
     });
 
 
@@ -19,7 +19,7 @@ exports.recursosRoutes = (app) => {
         var cb = (val) => {
             res.json(val);
         };
-        execSQLQuery(sqlQry, cb);
+        execSQLQuery(sqlQry, cb, req.body.cliente);
     });
 
     app.post('/startLogUsuarioRecursos', (req, res) => {
@@ -50,12 +50,12 @@ exports.recursosRoutes = (app) => {
                 var cb = (val) => {
                     res.json(val);
                 };
-                execSQLQuery(sqlQry, cb);
+                execSQLQuery(sqlQry, cb, req.body.cliente);
             } else {
                 res.send({ "message": "já existe um log para esse recurso deste usuário" })
             }
         };
-        execSQLQuery(selectQry, cb1);
+        execSQLQuery(selectQry, cb1, req.body.cliente);
     });
 
     app.post('/endLogUsuarioRecursos', (req, res) => {
@@ -85,12 +85,12 @@ exports.recursosRoutes = (app) => {
                         status: true,
                     });
                 };
-                execSQLQuery(sqlQry, cb);
+                execSQLQuery(sqlQry, cb, req.body.cliente);
             } else {
                 res.send({ "message": "não existe um log para esse recurso deste usuário ou o recurso já foi concluido", status: false })
             }
         };
-        execSQLQuery(selectQry, cb1);
+        execSQLQuery(selectQry, cb1, req.body.cliente);
     });
 
     app.post('/getLogRecursos', (req, res) => {
@@ -98,7 +98,7 @@ exports.recursosRoutes = (app) => {
         var cb = (val) => {
             res.json(val);
         };
-        execSQLQuery(sqlQry, cb);
+        execSQLQuery(sqlQry, cb, req.body.cliente);
     });
 
     app.post('/updateLogRecursos', (req, res) => {
@@ -118,14 +118,14 @@ exports.recursosRoutes = (app) => {
                         });
                     }
                 };
-                execSQLQuery(sqlQry2, cb2);
+                execSQLQuery(sqlQry2, cb2, req.body.cliente);
             } else {
                 res.send({
                     "message": "log atualizado com sucesso"
                 });
             }
         };
-        execSQLQuery(sqlQry, cb);
+        execSQLQuery(sqlQry, cb, req.body.cliente);
     });
 
 }

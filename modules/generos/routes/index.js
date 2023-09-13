@@ -12,7 +12,7 @@ exports.generosRoutes = (app) => {
 
         };
 
-        execSQLQuery(sqlQry, cb);
+        execSQLQuery(sqlQry, cb, req.body.cliente);
     });
 
 

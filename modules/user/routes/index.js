@@ -41,7 +41,7 @@ exports.userRoutes = (app) => {
         cb = (val) => {
             res.json(val[0])
         };
-        execSQLQuery(query, cb);
+        execSQLQuery(query, cb, req.body.cliente);
     });
     app.get('/getAccesses', (req, res) => {
         const [, token] = req.headers.authorization?.split(' ') || [' ', ' '];
@@ -57,7 +57,7 @@ exports.userRoutes = (app) => {
             });
             res.json({ total: val.length, mes: acessosMes.length })
         };
-        execSQLQuery(query, cb);
+        execSQLQuery(query, cb, req.body.cliente);
     });
 
 
@@ -67,7 +67,7 @@ exports.userRoutes = (app) => {
         cb = (val) => {
             res.json(val[0])
         };
-        execSQLQuery(query, cb);
+        execSQLQuery(query, cb, req.query.cliente);
     });
 
     app.post('/updateUser', (req, res) => {
@@ -76,7 +76,7 @@ exports.userRoutes = (app) => {
         cb = (val) => {
             res.json(val[0])
         };
-        execSQLQuery(query, cb);
+        execSQLQuery(query, cb, req.body.cliente);
     });
 
     app.get('/refreshPoints', (req, res) => {
@@ -95,15 +95,15 @@ exports.userRoutes = (app) => {
                         cb2 = (val) => {
                             res.send({ message: 'Pontos atualizados', pontos: pontos })
                         };
-                        execSQLQuery(query2, cb2);
+                        execSQLQuery(query2, cb2, req.query.cliente);
                     }
                 };
-                execSQLQuery(queryConq, cbConq);
+                execSQLQuery(queryConq, cbConq, req.query.cliente);
             } else {
                 res.send({ message: 'Nenhum log para esse usuário' });
             }
         }
-        execSQLQuery(query, cb);
+        execSQLQuery(query, cb, req.query.cliente);
     });
 
 
@@ -119,7 +119,7 @@ exports.userRoutes = (app) => {
                         var agora = moment().format('YYYY-MM-DDTHH:mm:ss') + '.000Z';
                         var token = jsonwebtoken.sign({ ultimo_acesso: agora, id: id }, 'ZECTAS');
                         var query2 = ["UPDATE usuario SET token = ?, ultimo_acesso = ?, senha = ? WHERE id = ?", [token, agora, newPass, id]];
-                        execSQLQuery(query2, () => { });
+                        execSQLQuery(query2, () => { }, req.body.cliente);
                         res.json({ token });
                     } else {
                         res.send({ message: "Senha incoreta." })
@@ -131,7 +131,7 @@ exports.userRoutes = (app) => {
                 res.send({ message: "Usuário não encontrado." })
             }
         }
-        execSQLQuery(query, cb);
+        execSQLQuery(query, cb, req.body.cliente);
     });
 
 
@@ -176,7 +176,7 @@ exports.userRoutes = (app) => {
 
                                 execSQLQuery(query2, () => {
                                     res.json({ token, ultimo_acesso: txt[0]['ultimo_acesso'] });
-                                });
+                                }, req.body.cliente);
                             } else {
                                 res.send({ message: "Senha incorreta" });
                             }
@@ -226,7 +226,7 @@ exports.userRoutes = (app) => {
                             var agora = moment().format('YYYY-MM-DDTHH:mm:ss') + '.000Z';
                             var token = jsonwebtoken.sign({ ultimo_acesso: agora, id }, 'ZECTAS');
                             var query2 = ["UPDATE usuario SET token = ?, ultimo_acesso = ?, senha = ? WHERE id = ?", [token, agora, newPass, id]];
-                            execSQLQuery(query2, () => { });
+                            execSQLQuery(query2, () => { }, req.body.cliente);
                             res.json({ token });
                         } else {
                             res.send({ message: "Senha incorreta" });
@@ -237,7 +237,7 @@ exports.userRoutes = (app) => {
                 res.send({ message: "Usuário não encontrado" })
             }
         }
-        execSQLQuery(query, cb);
+        execSQLQuery(query, cb, req.body.cliente);
     });
 
 
@@ -265,7 +265,7 @@ exports.userRoutes = (app) => {
                         //cria um novo token e atualiza no banco
                         var token = jsonwebtoken.sign({ ultimo_acesso: agora, id }, 'ZECTAS');
                         var query2 = ["UPDATE usuario SET token = ?, ultimo_acesso = ? WHERE token = ?", [token, agora, req.body.token]];
-                        execSQLQuery(query2, () => { });
+                        execSQLQuery(query2, () => { }, req.body.cliente);
                         res.json({ token });
                     } else {
                         //caso a data seja diferente retorna token inválido
@@ -276,7 +276,7 @@ exports.userRoutes = (app) => {
                 }
 
             };
-            execSQLQuery(query, cb);
+            execSQLQuery(query, cb, req.body.cliente);
         }
     });
 
@@ -315,7 +315,7 @@ exports.userRoutes = (app) => {
                 res.json({ 'status': false });
             }
         }
-        execSQLQuery(query, cb);
+        execSQLQuery(query, cb, req.body.cliente);
     });
 
 
