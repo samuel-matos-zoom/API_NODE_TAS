@@ -251,10 +251,10 @@ exports.userRoutes = (app) => {
         var newDate = moment(user['ultimo_acesso']);
         //verifica a diferença entre as datas
         var diff = newDate.diff(agora, 'days');
-        if (diff > 30) {
+        if (diff > 10) {
             res.send({ message: "Token expirado!" })
         } else {
-            //caso a diferença for menor de 30 dias 
+            //caso a diferença for menor de 10 dias 
             cb = (txt) => {
                 if (txt.length > 0) {
                     var id = txt[0]['id'];
