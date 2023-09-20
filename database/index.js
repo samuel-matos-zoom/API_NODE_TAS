@@ -5,19 +5,19 @@ exports.execSQLQuery = (sqlQry, res, cliente) => {
   switch (parseInt(cliente)) {
     case 1:
       config = {
-        host: '18.191.1.58',
+        host: '54.243.64.53',
         port: 3306,
-        user: 'devplataformagit_user',
-        password: '8$Oy237zKySg',
-        database: 'tasdev'
+        user: 'unisin',
+        password: '3G%949iYwCc2',
+        database: 'unisin'
       };
       break;
     case 2:
       config = {
-        host: 'tasdev.vpshost5501.mysql.dbaas.com.br',
+        host: '18.191.1.58',
         port: 3306,
-        user: 'tasdev',
-        password: 'TasDEV495051@',
+        user: 'devplataformagit_user',
+        password: '8$Oy237zKySg',
         database: 'tasdev'
       };
       break;
