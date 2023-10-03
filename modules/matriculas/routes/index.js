@@ -9,6 +9,9 @@ exports.matriculasRoutes = (app) => {
         };
         execSQLQuery(sqlQry, cb, req.body.cliente);
     });
+
+
+    //status e data end
     app.post('/setProgressoMatricula', (req, res) => {
         var sqlQry = ["UPDATE curso_matricula SET progresso = ? WHERE id_usuario = ? AND id_curso = ?", [req.body.porcentagem, req.body.idUser, req.body.idCurso]];
         var cb = (val) => {

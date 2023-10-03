@@ -19,6 +19,7 @@ const { tagsRoutes } = require('../modules/tags/routes');
 const { avisosRoutes } = require('../modules/avisos/routes');
 const { rankingRoutes } = require('../modules/ranking/routes');
 const { npsRoutes } = require('../modules/nps/routes');
+const { avaliacaoRoutes } = require('../modules/avaliacao/routes');
 
 const app = express();
 
@@ -53,4 +54,5 @@ exports.start = () => {
     avisosRoutes(app);
     rankingRoutes(app);
     npsRoutes(app);
+    avaliacaoRoutes(app);
 };
