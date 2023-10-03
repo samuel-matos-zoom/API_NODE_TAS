@@ -10,7 +10,20 @@ exports.avaliacaoRoutes = (app) => {
         execSQLQuery(sqlQry, cb, req.body.cliente);
     });
 
+    app.post('/getPerguntas', (req, res) => {
+        var sqlQry = ["SELECT id AS id_questao, titulo AS nm_questao, tipo, nota, ordem FROM questao WHERE id_avaliacao = ? AND ativo = 1", [req.body.idAvaliacao]];
+        var cb = (val) => {
+            res.json(val);
+        };
+        execSQLQuery(sqlQry, cb, req.body.cliente);
+    });
 
-
+    app.post('/getRespostas', (req, res) => {
+        var sqlQry = ["SELECT id AS id_resposta, texto AS nm_resposta, tipo, correto FROM questao_opcao WHERE id_questao = ?", [req.body.idPergunta]];
+        var cb = (val) => {
+            res.json(val);
+        };
+        execSQLQuery(sqlQry, cb, req.body.cliente);
+    });
 
 }
