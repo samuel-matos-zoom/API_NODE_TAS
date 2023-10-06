@@ -31,7 +31,7 @@ exports.avaliacaoRoutes = (app) => {
         var agora = moment().format('YYYY-MM-DDTHH:mm:ss');
 
         var sqlQry = ["INSERT INTO avaliacao_resposta (id_avaliacao, id_usuario, data_fim, respostas, status,acertos,erros,local, notafinal, notacorte) VALUES (?,?,?,?,?,?,?,?,?,?)",
-            [req.body.idAvaliacao, req.body.idUser, agora, req.body.respostas, 1, req.body.acertos, req.body.erros, 'app', req.body.notafinal, req.body.notacorte]];
+            [req.body.idAvaliacao, req.body.idUser, agora, req.body.respostas, req.body.notafinal >= req.body.notacorte ? 1 : 0, req.body.acertos, req.body.erros, 'app', req.body.notafinal, req.body.notacorte]];
         var cb = (val) => {
             res.json(val);
         };
