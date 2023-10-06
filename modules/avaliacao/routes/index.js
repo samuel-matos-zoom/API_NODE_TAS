@@ -11,7 +11,7 @@ exports.avaliacaoRoutes = (app) => {
     });
 
     app.post('/getPerguntas', (req, res) => {
-        var sqlQry = ["SELECT id AS id_questao, titulo AS nm_questao, tipo, nota, ordem FROM questao WHERE id_avaliacao = ? AND ativo = 1", [req.body.idAvaliacao]];
+        var sqlQry = ["SELECT id AS id_questao, titulo AS nm_questao, tipo, nota, ordem FROM questao WHERE id_avaliacao = ? AND ativo = 1 AND tipo = ?", [req.body.idAvaliacao, 'radio']];
         var cb = (val) => {
             res.json(val);
         };
