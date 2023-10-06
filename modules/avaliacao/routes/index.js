@@ -1,4 +1,5 @@
 const { execSQLQuery } = require("../../../database");
+const moment = require('moment');
 
 
 exports.avaliacaoRoutes = (app) => {
@@ -27,6 +28,8 @@ exports.avaliacaoRoutes = (app) => {
     });
 
     app.post('/sendResultadoAvaliacao', (req, res) => {
+        var agora = moment().format('YYYY-MM-DDTHH:mm:ss');
+
         var sqlQry = ["INSERT INTO avaliacao_resposta (id_avaliacao, id_usuario, data_fim, respostas, status,acertos,erros,local, notafinal, notacorte) VALUES (?,?,?,?,?,?,?,?,?,?)",
             [req.body.idAvaliacao, req.body.idUser, agora, req.body.respostas, 1, req.body.acertos, req.body.erros, 'app', req.body.notafinal, req.body.notacorte]];
         var cb = (val) => {
