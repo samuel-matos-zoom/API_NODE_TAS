@@ -27,7 +27,7 @@ exports.avaliacaoRoutes = (app) => {
     });
 
     app.post('/sendResultadoAvaliacao', (req, res) => {
-        var sqlQry = ["INSERT INTO avaliacao_resposta (id_avaliação, id_usuario, data_gerado, data_fim, respostas, status,acertos,erros, notafinal, notacorte) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        var sqlQry = ["INSERT INTO avaliacao_resposta (id_avaliacao, id_usuario, data_gerado, data_fim, respostas, status,acertos,erros, notafinal, notacorte) VALUES (?,?,?,?,?,?,?,?,?,?)",
             [req.body.idAvaliacao, req.body.idUser, req.body.dataGerado, req.body.dataFim, req.body.respostas, 1, req.body.acertos, req.body.erros, req.body.notafinal, req.body.notacorte]];
         var cb = (val) => {
             res.json(val);
