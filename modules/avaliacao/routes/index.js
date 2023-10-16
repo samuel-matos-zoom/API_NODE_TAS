@@ -4,7 +4,7 @@ const jsonwebtoken = require('jsonwebtoken');
 
 exports.avaliacaoRoutes = (app) => {
     app.post('/getAvaliacao', (req, res) => {
-        var sqlQry = ["SELECT t1.id, t1.id_curso, t1.id_etapa, t1.titulo AS nm_avaliacao, t1.descricao, t1.tempo, t1.refazer, t1.obrigatorio, t1.notacorte, t1.embaralhar, t1.refazer_limit, t1.nummaxquestion, t2.notafinal, COUNT(t2.id_usuario) as tentativas FROM avaliacao t1 LEFT JOIN (SELECT id_avaliacao, MAX(data_fim) as data_fim FROM avaliacao_resposta WHERE id_usuario = ? GROUP BY id_avaliacao) t3 ON t3.id_avaliacao = t1.id LEFT JOIN avaliacao_resposta t2 ON t2.id_avaliacao = t1.id AND t2.id_usuario = ? AND t2.data_fim = t3.data_fim WHERE t1.id_curso = ? AND t1.id_etapa = ? GROUP BY t1.id", [req.body.idUser, req.body.idUser, req.body.idCurso, req.body.idEtapa,]];
+        var sqlQry = ["SELECT t1.id, t1.id_curso, t1.id_etapa, t1.titulo AS nm_avaliacao, t1.descricao, t1.tempo, t1.refazer, t1.obrigatorio, t1.notacorte, t1.embaralhar, t1.refazer_limit, t1.nummaxquestion, t2.notafinal, (SELECT COUNT(id_usuario) FROM avaliacao_resposta WHERE id_avaliacao = t1.id AND id_usuario = ?) as tentativas FROM avaliacao t1 LEFT JOIN avaliacao_resposta t2 ON t2.id_avaliacao = t1.id AND t2.id_usuario = ? WHERE t1.id_curso = ? AND t1.id_etapa = ? LIMIT 1; ", [req.body.idUser, req.body.idUser, req.body.idCurso, req.body.idEtapa,]];
         var cb = (val) => {
             res.json(val);
         };
