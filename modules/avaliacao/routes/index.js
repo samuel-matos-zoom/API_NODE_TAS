@@ -30,7 +30,7 @@ exports.avaliacaoRoutes = (app) => {
     app.post('/sendResultadoAvaliacao', (req, res) => {
         var agora = moment().format('YYYY-MM-DDTHH:mm:ss');
         if (req.body.resultado != null) {
-            let jsonValidStr = req.body.resultado.replace(/(\w+):/g, '"$1":');
+            let jsonValidStr = String(req.body.resultado).replace(/(\w+):/g, '"$1":');
             let obj = JSON.parse(jsonValidStr);
             let perguntas = Object.keys(obj);
             let respostas = Object.values(obj);
