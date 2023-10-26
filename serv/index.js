@@ -23,8 +23,6 @@ const { avaliacaoRoutes } = require('../modules/avaliacao/routes');
 
 const app = express();
 
-
-
 app.get('/', (req, res) => {
     res.send('Hello, world!');
 });

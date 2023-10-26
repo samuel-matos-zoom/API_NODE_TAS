@@ -3,6 +3,24 @@ const moment = require('moment');
 const jsonwebtoken = require('jsonwebtoken');
 
 exports.avaliacaoRoutes = (app) => {
+
+    app.post('/getResultAvaliacaoRespostas', (req, res) => {
+        var sqlQry = ["SELECT * FROM avaliacao_resposta_itens  WHERE id_avaliacao_resposta = ? ", [req.body.idResultAval]];
+        var cb = (val) => {
+            res.json(val);
+        };
+        execSQLQuery(sqlQry, cb, req.body.cliente);
+    });
+
+
+    app.post('/getResultAvaliacao', (req, res) => {
+        var sqlQry = ["SELECT * FROM avaliacao_resposta  WHERE id = ? ", [req.body.idResultAval]];
+        var cb = (val) => {
+            res.json(val);
+        };
+        execSQLQuery(sqlQry, cb, req.body.cliente);
+    });
+
     app.post('/getAvaliacao', (req, res) => {
         var sqlQry = ["SELECT t1.id, t1.id_curso, t1.id_etapa, t1.titulo AS nm_avaliacao, t1.descricao, t1.tempo, t1.refazer, t1.obrigatorio, t1.notacorte, t1.embaralhar, t1.refazer_limit, t1.nummaxquestion, t2.notafinal, (SELECT COUNT(id_usuario) FROM avaliacao_resposta WHERE id_avaliacao = t1.id AND id_usuario = ?) as tentativas FROM avaliacao t1 LEFT JOIN avaliacao_resposta t2 ON t2.id_avaliacao = t1.id AND t2.id_usuario = ? WHERE t1.id_curso = ? AND t1.id_etapa = ?  ORDER BY t2.notafinal DESC LIMIT 1", [req.body.idUser, req.body.idUser, req.body.idCurso, req.body.idEtapa,]];
         var cb = (val) => {
@@ -20,7 +38,7 @@ exports.avaliacaoRoutes = (app) => {
     });
 
     app.post('/getRespostas', (req, res) => {
-        var sqlQry = ["SELECT id AS id_resposta, texto AS nm_resposta, tipo, correto FROM questao_opcao WHERE id_questao = ?", [req.body.idPergunta]];
+        var sqlQry = ["SELECT id AS id_resposta, id_questao, texto AS nm_resposta, tipo, correto FROM questao_opcao WHERE id_questao = ?", [req.body.idPergunta]];
         var cb = (val) => {
             res.json(val);
         };

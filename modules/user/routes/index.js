@@ -269,7 +269,7 @@ exports.userRoutes = (app) => {
                         res.json({ token });
                     } else {
                         //caso a data seja diferente retorna token inválido
-                        res.send({ message: "Token inválido" });
+                        res.send({ message: "Token inválido", errorCode: "1" });
                     }
                 } else {
                     res.send({ message: 'Usuário não encontrado ou token inválido' })
