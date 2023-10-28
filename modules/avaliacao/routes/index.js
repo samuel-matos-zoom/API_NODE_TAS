@@ -1,6 +1,8 @@
 const { execSQLQuery } = require("../../../database");
 const moment = require('moment');
 const jsonwebtoken = require('jsonwebtoken');
+const { format } = require('date-fns');
+const { ptBR } = require('date-fns/locale');
 
 exports.avaliacaoRoutes = (app) => {
 
@@ -55,7 +57,7 @@ exports.avaliacaoRoutes = (app) => {
     });
 
     app.post('/sendResultadoAvaliacao', (req, res) => {
-        var agora = moment().format('YYYY-MM-DD HH:mm:ss');
+        const agora = format(moment.now(), 'yyyy-MM-dd HH:mm:ss', { locale: ptBR });
         if (req.body.resultado == null || req.body.resultado == 'null') {
             const [, token] = req.headers.authorization?.split(' ') || [' ', ' '];
             if (token != null) {
