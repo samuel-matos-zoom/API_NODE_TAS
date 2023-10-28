@@ -11,7 +11,7 @@ exports.idiomasRoutes = (app) => {
         execSQLQuery(sqlQry, cb, req.body.cliente);
     });
 
-    app.get('/getIdiomas', (req, res) => {
+    app.post('/getIdiomas', (req, res) => {
         var sqlQry = ["SELECT * FROM idioma"];
         var cb = (val) => {
             res.json(val);
