@@ -1,8 +1,6 @@
 const { execSQLQuery } = require("../../../database");
 const moment = require('moment');
 const jsonwebtoken = require('jsonwebtoken');
-const { format } = require('date-fns');
-const { ptBR } = require('date-fns/locale');
 
 exports.avaliacaoRoutes = (app) => {
 
@@ -57,14 +55,13 @@ exports.avaliacaoRoutes = (app) => {
     });
 
     app.post('/sendResultadoAvaliacao', (req, res) => {
-        const agora = format(moment.now(), 'yyyy-MM-dd HH:mm:ss', { locale: ptBR });
         if (req.body.resultado == null || req.body.resultado == 'null') {
             const [, token] = req.headers.authorization?.split(' ') || [' ', ' '];
             if (token != null) {
                 var user = jsonwebtoken.verify(token, 'ZECTAS');
                 if (user['id'] != null) {
                     var sqlQry = ["INSERT INTO avaliacao_resposta (id_avaliacao,id_usuario,data_gerado,data_fim,respostas,status,acertos,erros,local,notafinal,notacorte,overduehandling,id_perfiluser,id_curso,id_trilha) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                        [req.body.idAvaliacao, user['id'], req.body.inicio, agora, 0, 0, 0, 0, 'app', 0, req.body.notacorte, req.body.submitType, req.body.idPerfil, req.body.idCurso, req.body.idTrilha]];
+                        [req.body.idAvaliacao, user['id'], req.body.inicio, req.body.fim, 0, 0, 0, 0, 'app', 0, req.body.notacorte, req.body.submitType, req.body.idPerfil, req.body.idCurso, req.body.idTrilha]];
                     var cb = (val) => {
                         var idAvalResposta = val['insertId'];
                         res.json({ "idAvalResposta": idAvalResposta });
@@ -89,7 +86,7 @@ exports.avaliacaoRoutes = (app) => {
                 var user = jsonwebtoken.verify(token, 'ZECTAS');
                 if (user['id'] != null) {
                     var sqlQry = ["INSERT INTO avaliacao_resposta (id_avaliacao,id_usuario,data_gerado,data_fim,respostas,status,acertos,erros,local,notafinal,notacorte,overduehandling,id_perfiluser,id_curso,id_trilha) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                        [req.body.idAvaliacao, user['id'], req.body.inicio, agora, respostas.length, ((corretas / respostas.length) * 100) >= req.body.notacorte ? 1 : 0, corretas, (respostas.length - corretas), 'app', (corretas / respostas.length) * 100, req.body.notacorte, req.body.submitType, req.body.idPerfil, req.body.idCurso, req.body.idTrilha]];
+                        [req.body.idAvaliacao, user['id'], req.body.inicio, req.body.fim, respostas.length, ((corretas / respostas.length) * 100) >= req.body.notacorte ? 1 : 0, corretas, (respostas.length - corretas), 'app', (corretas / respostas.length) * 100, req.body.notacorte, req.body.submitType, req.body.idPerfil, req.body.idCurso, req.body.idTrilha]];
                     var cb = (val) => {
                         var idAvalResposta = val['insertId'];
                         for (let i = 0; i < perguntas.length; i++) {
