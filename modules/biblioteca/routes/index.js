@@ -18,4 +18,12 @@ exports.bibliotecaRoutes = (app) => {
         execSQLQuery(sqlQry, cb, req.body.cliente);
     });
 
+    app.post('/addBibliotecaLog', (req, res) => {
+        var sqlQry = ["INSERT INTO biblioteca_log (id_biblioteca, id_usuario,datagerado,app) VALUES (?,?,?,?)", [req.body.idBiblioteca, req.body.idUser, req.body.hora, 1]];
+        var cb = (val) => {
+            res.json(val);
+        };
+        execSQLQuery(sqlQry, cb, req.body.cliente);
+    });
+
 }
