@@ -20,7 +20,7 @@ exports.matriculasRoutes = (app) => {
                 sqlQry = ["UPDATE curso_matricula SET progresso = ?, data_start = ? WHERE id_usuario = ? AND id_curso = ?", [req.body.porcentagem, agora, req.body.idUser, req.body.idCurso]];
                 break;
             case "100":
-                sqlQry = ["UPDATE curso_matricula SET progresso = ?, data_end = ? WHERE id_usuario = ? AND id_curso = ?", [req.body.porcentagem, agora, req.body.idUser, req.body.idCurso]];
+                sqlQry = ["UPDATE curso_matricula SET progresso = ?, data_end = ? WHERE id_usuario = ? AND id_curso = ? AND progresso < ?", [req.body.porcentagem, agora, req.body.idUser, req.body.idCurso, 100]];
                 break;
             default:
                 sqlQry = ["UPDATE curso_matricula SET progresso = ? WHERE id_usuario = ? AND id_curso = ?", [req.body.porcentagem, req.body.idUser, req.body.idCurso]];
