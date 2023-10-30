@@ -16,10 +16,10 @@ exports.matriculasRoutes = (app) => {
         var sqlQry = [];
         var agora = moment().format('YYYY-MM-DDTHH:mm:ss') + '.000Z';
         switch (req.body.porcentagem) {
-            case 0:
+            case "0":
                 sqlQry = ["UPDATE curso_matricula SET progresso = ?, data_start = ? WHERE id_usuario = ? AND id_curso = ?", [req.body.porcentagem, agora, req.body.idUser, req.body.idCurso]];
                 break;
-            case 100:
+            case "100":
                 sqlQry = ["UPDATE curso_matricula SET progresso = ?, data_end = ? WHERE id_usuario = ? AND id_curso = ?", [req.body.porcentagem, agora, req.body.idUser, req.body.idCurso]];
                 break;
             default:
