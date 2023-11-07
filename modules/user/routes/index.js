@@ -57,7 +57,7 @@ exports.userRoutes = (app) => {
             });
             res.json({ total: val.length, mes: acessosMes.length })
         };
-        execSQLQuery(query, cb, req.body.cliente);
+        execSQLQuery(query, cb, req.query.cliente);
     });
 
 
