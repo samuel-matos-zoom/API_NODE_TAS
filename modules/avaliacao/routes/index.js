@@ -22,6 +22,14 @@ exports.avaliacaoRoutes = (app) => {
         execSQLQuery(sqlQry, cb, req.body.cliente);
     });
 
+    app.post('/getLatestResultsAval', (req, res) => {
+        var sqlQry = ["SELECT * FROM avaliacao_resposta  WHERE id_usuario = ? ORDER BY data_fim DESC LIMIT ?", [req.body.idUser, req.body.limite]];
+        var cb = (val) => {
+            res.json(val);
+        };
+        execSQLQuery(sqlQry, cb, req.body.cliente);
+    });
+
     app.post('/getTentativas', (req, res) => {
         var sqlQry = ["SELECT id FROM avaliacao_resposta WHERE id_avaliacao = ? AND id_usuario = ?", [req.body.idAvaliacao, req.body.idUser]];
         var cb = (val) => {
