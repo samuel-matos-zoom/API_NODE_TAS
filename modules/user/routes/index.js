@@ -170,7 +170,7 @@ exports.userRoutes = (app) => {
                             if (result) {
                                 var id = txt[0]['id'];
                                 var agora = moment().format('YYYY-MM-DDTHH:mm:ss') + '.000Z';
-                                var token = jsonwebtoken.sign({ ultimo_acesso: agora, id }, 'ZECTAS');
+                                var token = jsonwebtoken.sign({ ultimo_acesso: agora, id, cpf: txt[0]['cpf'] }, 'ZECTAS');
 
                                 var query2 = ["UPDATE usuario SET token = ?, ultimo_acesso = ? WHERE id = ?", [token, agora, id]];
 
