@@ -14,7 +14,7 @@ exports.conquistasRoutes = (app) => {
     app.post('/emitirConquista', (req, res) => {
         const [, token] = req.headers.authorization?.split(' ') || [' ', ' '];
         var user = jsonwebtoken.verify(token, 'ZECTAS');
-        var sqlQry = ["SELECT * FROM gamificacao WHERE id = ? LIMIT 1", [req.body.idGamificacao]];
+        var sqlQry = ["SELECT * FROM gamificacao WHERE id = ? AND ativo = ? LIMIT 1", [req.body.idGamificacao, 1]];
         var cbFirst = (value) => {
             if (value.length > 0) {
                 var query = ["SELECT * FROM gamificacao_log WHERE id_usuario = ? AND id_gamificacao = ?", [user['id'], req.body.idGamificacao]];
@@ -36,8 +36,6 @@ exports.conquistasRoutes = (app) => {
             }
         };
         execSQLQuery(sqlQry, cbFirst, req.body.cliente);
-
-
     });
 
 }
