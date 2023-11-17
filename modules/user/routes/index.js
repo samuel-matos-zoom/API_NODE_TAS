@@ -9,7 +9,7 @@ const nodemailer = require("nodemailer");
 const { execSQLQuery } = require("../../../database");
 
 const transporter = nodemailer.createTransport({
-    host: "traininganalytics.com.br",
+    host: "email-ssl.com.br",
     port: 587,
     auth: {
         user: "no-reply@traininganalytics.com.br",
