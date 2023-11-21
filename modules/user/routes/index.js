@@ -283,6 +283,16 @@ exports.userRoutes = (app) => {
 
 
     app.post('/forgotPass', (req, res) => {
+        verifyClient = (client) => {
+            switch (client) {
+                case 1:
+                    return 'https://sinuniversity.com.br';
+                case 2:
+                    return 'https://dev.traininganalytics.com.br';
+                default:
+                    return 'semcliente';
+            }
+        }
         const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64');
         const payload = Buffer.from(JSON.stringify({ sub: md5(Date.now()), email: req.body.email, iat: Date.now() })).toString('base64');
         const signature = Buffer.from(
@@ -297,7 +307,7 @@ exports.userRoutes = (app) => {
                     from: "no-reply@traininganalytics.com.br",
                     to: req.body.email,
                     subject: "Esqueceu a senha",
-                    text: 'https://dev.traininganalytics.com.br/altera-senha/' + jwt_token
+                    text: verifyClient(req.body.cliente) + '/webapp/altera-senha/' + jwt_token
                 };
 
                 // Enviar e-mail
