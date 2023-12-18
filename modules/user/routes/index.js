@@ -5,7 +5,6 @@ const crypto = require('crypto');
 const CryptoJS = require('crypto-js');
 const md5 = require('md5');
 const nodemailer = require("nodemailer");
-
 const { execSQLQuery } = require("../../../database");
 
 const transporter = nodemailer.createTransport({
@@ -59,8 +58,6 @@ exports.userRoutes = (app) => {
         };
         execSQLQuery(query, cb, req.query.cliente);
     });
-
-
     app.get('/getUser', (req, res) => {
         const [, token] = req.headers.authorization?.split(' ') || [' ', ' '];
         var query = ["SELECT * FROM usuario WHERE token = ?", [token]];
@@ -69,7 +66,6 @@ exports.userRoutes = (app) => {
         };
         execSQLQuery(query, cb, req.query.cliente);
     });
-
     app.post('/updateUser', (req, res) => {
         const [, token] = req.headers.authorization?.split(' ') || [' ', ' '];
         var query = ["UPDATE usuario SET sexo = ?, id_idioma = ? WHERE token = ?", [req.body.sexo, req.body.idioma, token]];
@@ -78,7 +74,6 @@ exports.userRoutes = (app) => {
         };
         execSQLQuery(query, cb, req.body.cliente);
     });
-
     app.get('/refreshPoints', (req, res) => {
         const [, token] = req.headers.authorization?.split(' ') || [' ', ' '];
         var user = jsonwebtoken.verify(token, 'ZECTAS');
@@ -105,8 +100,6 @@ exports.userRoutes = (app) => {
         }
         execSQLQuery(query, cb, req.query.cliente);
     });
-
-
     app.post('/newPass', async (req, res) => {
         var query = ["SELECT id, senha FROM usuario WHERE cpf = ?", [req.body.documento]];
         cb = async (txt) => {
@@ -133,8 +126,6 @@ exports.userRoutes = (app) => {
         }
         execSQLQuery(query, cb, req.body.cliente);
     });
-
-
     app.post('/login', async (req, res) => {
         var query = [];
         if (req.body.email != null) {
@@ -193,7 +184,6 @@ exports.userRoutes = (app) => {
         }
         execSQLQuery(query, cb, req.body.cliente);
     });
-
     app.post('/changePass', async (req, res) => {
         var query = [];
         if (req.body.email != null) {
@@ -240,8 +230,6 @@ exports.userRoutes = (app) => {
         }
         execSQLQuery(query, cb, req.body.cliente);
     });
-
-
     app.post('/refreshToken', (req, res) => {
 
         //Pega usuário pelo token
@@ -280,8 +268,6 @@ exports.userRoutes = (app) => {
             execSQLQuery(query, cb, req.body.cliente);
         }
     });
-
-
     app.post('/forgotPass', (req, res) => {
         verifyClient = (client) => {
             switch (client) {
@@ -299,7 +285,6 @@ exports.userRoutes = (app) => {
             CryptoJS.HmacSHA256(header + '.' + payload, 'ZECTAS').toString()
         ).toString('base64');
         const jwt_token = header + '.' + payload + '.' + signature;
-
         var query = ["UPDATE usuario SET token = ? WHERE email = ?", [jwt_token, req.body.email]];
         cb = (txt) => {
             if (txt['changedRows'] > 0) {
@@ -309,8 +294,6 @@ exports.userRoutes = (app) => {
                     subject: "Esqueceu a senha",
                     text: verifyClient(req.body.cliente) + '/webapp/altera-senha/' + jwt_token
                 };
-
-                // Enviar e-mail
                 transporter.sendMail(mailOptions, (error, info) => {
                     if (error) {
                         console.log(error);
@@ -318,16 +301,12 @@ exports.userRoutes = (app) => {
                         res.json({ 'status': false });
                     } else {
                         res.json({ 'status': true });
-
                     }
                 });
-
             } else {
                 res.json({ 'status': false });
             }
         }
         execSQLQuery(query, cb, req.body.cliente);
     });
-
-
 }
